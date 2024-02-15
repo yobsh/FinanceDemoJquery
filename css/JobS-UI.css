@@ -1,0 +1,270 @@
+/*Version 1.0.0*/
+
+*{
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.boton{
+	cursor: pointer;
+}
+.boton:active{
+	transform: translateY(2px);
+}
+.boton.jumpless:active{
+	transform: translateY(0);
+}
+.boton.disabled{
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.4;
+}
+
+.flex{
+	display: flex;
+    align-items: center;
+	justify-content: center;
+}
+
+.oculto{
+	display: none;
+}
+
+.formateado{
+	display: block;
+    text-transform: lowercase;
+}
+.formateado:first-letter {text-transform: uppercase;}
+
+.quitar-desplegado{
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	z-index: 1;
+	top: 0;
+    left: 0;
+/*    background-color: blue;
+    opacity: .5;*/
+}
+
+label{
+	font-weight: normal;
+}
+
+
+/*Teclados*/
+
+.contendor-teclado{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 303px;
+    background: white;
+}
+
+	.contendor-teclado #entrada-tabs{
+		padding: 0;
+	    list-style: none;
+	    margin: 0;
+	    width: 100%;
+	    display: flex;
+	    z-index: 1;
+	}
+
+	.contendor-teclado .tab-content{
+	    background-color: white;
+    	width: 100%;
+	}
+
+.teclado{
+	list-style: none;
+    padding: 0;
+    text-align: center;
+    margin: 0;
+}
+
+	.teclado.numerico{
+		padding-top: 16px;
+	}
+
+	.teclado.alfabetico{
+		width: 100%;
+		height: 180px;
+		padding: 0 0;
+	}
+
+	.teclado li{
+		display: inline-block;
+		background-color: #eaeaea;
+		cursor: pointer;
+		color: black;
+	}
+	.teclado li:active{
+		transform: translateY(2px);
+	}
+	.teclado li.locked{
+		pointer-events: none;
+		color: #eaeaea;
+	}
+
+	.teclado.numerico li{
+	    width: 25%;
+	    padding: 2px 0;
+	    margin: 0 2px 7px;
+	    font-size: 25px;
+	    text-align: center;
+	}
+
+	.teclado.alfabetico li{
+		width: 8.5%;
+		height: 40px;
+		margin: 0 0px 7px;
+		font-size: 21px;
+		text-align: center;
+		line-height: 39px;
+	}
+
+	.teclado li.espaciado{
+		width: calc(100% - 145px);
+	}
+
+	.teclado.alfabetico li.borrar{
+		width: 13%;
+	}
+
+	.teclado li.hueco{
+		width: 13%;
+		visibility: hidden;
+	}
+
+	.contendor-atajos{
+	    height: 200px;
+	    padding: 5px 10px 1px;
+	    margin-bottom: 5px;
+	}
+
+		.atajos{
+			list-style: none;
+		    text-align: center;
+		    color: black;
+		    margin: 0;
+		    padding: 0;
+		}
+
+			.atajos li{
+			    background: #f3f3f3;
+			    padding: 3px 10px 3px;
+			    display: inline-block;
+			    font-size: 19px;
+			    margin: 0 3px 7px;
+			}
+
+
+/*Monedas e Idiomas*/
+
+
+#panel-internacional{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+    height: 100vh;
+}
+
+	#panel-internacional .flex{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	    z-index: 2;
+	}
+
+	#panel-internacional .contenedor{
+	    box-shadow: 0 4px 30px rgba(0,0,0,.3);
+	    background-color: white;
+	    border-radius: 6px;
+	    width: 92%;
+	    padding: 13px 0 9px;
+	    position: relative;
+	}
+
+		#panel-internacional .boton.redondo{
+		    top: -4px;
+    		right: -4px;
+		}
+
+	#panel-internacional ul{
+	    list-style: none;
+	    padding: 0;
+	    text-align: center;
+	    margin: 0;
+	    padding: 0 10px;
+	}
+
+	#panel-internacional ul.monedas{
+		padding-bottom: 9px;
+	    border-bottom: 1px solid lightgray;
+	    margin-bottom: 10px;
+	}
+	#panel-internacional ul.idiomas{
+	}
+
+	#panel-internacional label{
+		font-weight: normal;
+		padding: 0 25px;
+		font-size: 19px;
+		margin-bottom: 8px;
+		text-align: center;
+
+	}
+
+		#panel-internacional li{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			box-shadow: 0 3px 9px rgba(0,0,0,.2);
+			margin: 0 0% 4px;
+			border: 2px solid #ffffff;
+			border-radius: 50%;
+		}
+
+		#panel-internacional li.active{
+			border-color: #e0493a;
+		}
+		#panel-internacional .idiomas li.active{
+			background-color: #e0493a;
+		}
+
+		#panel-internacional .monedas li{
+			background-color: #b1b1b1;
+			text-align: center;
+			font-size: 32px;
+			color: white;
+			line-height: 50px;
+		}
+
+		#panel-internacional .idiomas li{
+		}
+
+			#panel-internacional .idiomas li img{
+			    width: 46px;
+			    height: 46px;
+			}
+
+#panel-internacional .cerrar i{
+	color: #bfbfbf;
+	border-color: #bfbfbf;
+}
+
+
+.ellipsis{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

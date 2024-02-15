@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To Change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+  <!--       <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta charset="utf-8">
+        <title>Finance demo jquery</title>
+
+        <link rel="shortcut icon" type="image/png" href="img/icono.png"/>
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/fontawesome.css">
+        <link rel="stylesheet" href="css/app-black.css">
+
+    </head>
+
+<body class="no-subtotals pro">
+
+<div id="password">
+  <img src="img/icono.png">
+  <ul class="teclado">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>0</li>
+  </ul><!-- teclado -->
+</div><!-- password -->
+
+<div id="principal" class="pantalla completa">
+
+  <div id="status"><span class="date">-</span> / <span class="days">-</span></div>
+
+  <ul id="notifications">
+    <li class="colapsado blink"><span class="">¡ATENCIÓN ATENCIÓN SISTEMA COLAPSADO!<span></li>
+  </ul>
+
+
+
+  <ul id="methods">
+    
+    <li class="Account">
+      <i class="fas fa-money-check-alt"></i>
+      <div class="name">Account</div>
+      <div class="amount">$<span>0</span></div>
+      <div class="realAmount">($<span>0</span>)</div>
+    </li>
+    <li id="balance">
+      <div class="founds"><i class="fas fa-wallet"></i> <span class="Label">Founds:</span> <span class="amount">$0</span></div>
+      <div class="budgets"><i class="fas fa-chart-pie"></i> <span class="Label">Budgets:</span> <span class="amount">$0</span> </div>
+      <div class="balance"><i class="fas fa-balance-scale"></i> <span class="Label">Balance:</span> <span class="amount">$0</span></div>
+    </li>
+    <li class="OnlineCC regular">
+      <i class="fas fa-credit-card aqua"></i>
+      <div class="name">Credit Card</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="JobadCC regular" style="display: none">
+      <i class="fas fa-credit-card"></i>
+      <div class="name">Jobad CC</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="MaddieCC regular" style="display: none">
+      <i class="fas fa-credit-card pink"></i>
+      <div class="name">Maddie CC</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="RespaldoCC regular" style="display: none">
+      <i class="fas fa-credit-card respaldo"></i>
+      <div class="name">Respaldo CC</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="AmazonCC regular">
+      <i class="fab fa-cc-amazon-pay"></i>
+      <div class="name">Amazon CC</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="PayPalCC regular">
+      <i class="fab fa-paypal"></i>
+      <div class="name">Paypal CC</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="Cash regular">
+      <i class="fas fa-money-bill"></i>
+      <div class="name">Cash</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="Savings regular">
+      <i class="fas fa-piggy-bank"></i>
+      <div class="name">Savings</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    <li class="Stock regular">
+      <i class="fas fa-chart-line"></i>
+      <div class="name">Stock</div>
+      <div class="amount">$<span>###</span></div>
+    </li>
+    
+  </ul>
+
+
+  <div id="chart" class="">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs hide" role="tablist">
+    <li role="presentation" class="active"><a href="#monthly" aria-controls="home" role="tab" data-toggle="tab">Monthly</a></li>
+    <li role="presentation" class=""><a href="#weekly" aria-controls="profile" role="tab" data-toggle="tab">Weekly</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="monthly">
+
+        <div class="chart-container">
+          <canvas
+            id="monthChart"
+            width="100"
+            height="30">
+          </canvas>
+        </div>
+
+    </div><!--monthly-->
+
+    <div role="tabpanel" class="tab-pane" id="weekly">
+
+      <div class="chart-container">
+        <canvas id="weekChart"></canvas>
+      </div>
+
+    </div><!--weekly-->
+
+
+
+  </div><!--tab-panes-->
+
+</div><!--chart-->
+
+
+
+
+  <ul id="apartados">
+  </ul><!-- apartados -->
+
+</div><!-- principal -->
+
+
+<!-- MOVIMIENTOS -->
+<div id="movimientos" class="pantalla completa">
+
+      <div id="cuentas">
+        <ul></ul>
+      </div>
+
+      <div class="body">
+
+
+        <h3 class="apartado"></h3>
+
+        <ul id="lista">
+        </ul>
+
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Close</div>
+
+        <i class="transaction fas fa-plus-circle"></i>
+
+      </div><!-- footer -->
+
+</div><!-- movimientos -->
+
+
+<!-- REPORTE -->
+<div id="reporte" class="pantalla completa reporte">
+
+      <div class="body">
+
+      <input class="fechaIni input-lg form-control" type="date" placeholder="Fecha inicio">
+      <input class="fechaFin input-lg form-control" type="date" placeholder="Fecha Fin">
+      <div class="btn btn-lg btn-primary">Cargar</div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Apartado</th>
+              <th>Ingresos</th>
+              <th>Gastos</th>
+              <th>Avance</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cerrar</div>
+      </div><!-- footer -->
+
+</div><!-- reporte -->
+
+
+<!-- REPORTE GASTOS FIJOS -->
+<div id="reporte-gastos-fijos" class="pantalla completa reporte">
+
+      <div class="body">
+
+        <!-- Mensual -->
+        <h4>Mensualmente</h4>
+        <table id="gastosMensuales" class="table">
+          <tr>
+            <td>Ingreso Semanal</td>
+            <td class="ingreso">$<span></span></td>
+          </tr>
+          <tr>
+            <td>Gastos fijos Mensuales</td>
+            <td class="gasto">-$<span></span></td>
+          </tr>
+          <tr>
+            <td>Restante Mensual</td>
+            <td class="avance">$<span></span></td>
+          </tr>
+        </table>
+
+        <br>
+
+        <!-- Semanal -->
+        <h4>Semanalmente</h4>
+        <table id="gastosSemanales" class="table">
+          <tr>
+            <td>Ingreso semanal</td>
+            <td class="ingreso">$<span></span></td>
+          </tr>
+          <tr>
+            <td>Gastos fijos semanales</td>
+            <td class="gasto">-$<span></span></td>
+          </tr>
+          <tr>
+            <td>Restante semanal</td>
+            <td class="avance">$<span></span></td>
+          </tr>
+        </table>
+
+        <br>
+
+        <div id="anteriorSemana">
+          <h4>Gastos semana <span class="rango"></span> (anterior)</h4>
+          <table class="table">
+            <tr>
+              <td>Gastos<ul></ul></td>
+              <td class="gasto">-$<span class="cantidad"></span></td>
+            </tr>
+            <tr>
+              <td>Avance</td>
+              <td class="avance">$<span class="cantidad"></span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="estaSemana">
+          <h4>Gastos semana <span class="rango"></span> (actual)</h4>
+          <table class="table">
+            <tr>
+              <td>Gastos<ul></ul></td>
+              <td class="gasto">-$<span class="cantidad"></span></td>
+            </tr>
+            <tr>
+              <td>Avance</td>
+              <td class="avance">$<span class="cantidad"></span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="siguienteSemana">
+          <h4>Gastos semana <span class="rango"></span> (siguiente)</h4>
+          <table class="table">
+            <tr>
+              <td>Gastos<ul></ul></td>
+              <td class="gasto">-$<span class="cantidad"></span></td>
+            </tr>
+            <tr>
+              <td>Avance</td>
+              <td class="avance">$<span class="cantidad"></span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="dosDespues">
+          <h4>Gastos semana <span class="rango"></span></h4>
+          <table class="table">
+            <tr>
+              <td>Gastos<ul></ul></td>
+              <td class="gasto">-$<span class="cantidad"></span></td>
+            </tr>
+            <tr>
+              <td>Avance</td>
+              <td class="avance">$<span class="cantidad"></span></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="tresDespues">
+          <h4>Gastos semana <span class="rango"></span></h4>
+          <table class="table">
+            <tr>
+              <td>Gastos<ul></ul></td>
+              <td class="gasto">-$<span class="cantidad"></span></td>
+            </tr>
+            <tr>
+              <td>Avance</td>
+              <td class="avance">$<span class="cantidad"></span></td>
+            </tr>
+          </table>
+        </div>
+
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cerrar</div>
+      </div><!-- footer -->
+
+</div><!-- reporte gastos fijos -->
+
+
+<!-- REPORTE -->
+<div id="reporte" class="pantalla completa">
+
+      <div class="body">
+
+      <input class="fechaIni input-lg form-control" type="date" placeholder="Fecha inicio">
+      <input class="fechaFin input-lg form-control" type="date" placeholder="Fecha Fin">
+      <div class="btn btn-lg btn-primary">Cargar</div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Apartado</th>
+              <th>Ingresos</th>
+              <th>Gastos</th>
+              <th>Avance</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cerrar</div>
+      </div><!-- footer -->
+
+</div><!-- reporte -->
+
+
+<!-- TRANSACTION -->
+<div id="transaction" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <ul class="tabs">
+        <li class="expense left">Expense</li>
+        <li class="income right">Income</li>
+        <li class="modify full">Modify</li>
+      </ul>
+
+      <div class="body">
+
+        <div class="form-group col-2 col-first">
+          <label>Amount 1</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg">
+          </div>
+          <div id="remaining">Remaining: <span class='budget'></span> </div>
+        </div>
+
+        <div id="apartado-holder" class="form-group col-2">
+          <label>Budget</label>
+          <select class="apartados input-lg form-control"> </select>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input class="descripcion input-lg form-control" type="text">
+        </div>
+
+        <div class="atajos"></div>
+
+
+
+        <!-- <div class="checkbox">
+          <label>
+            <input type="checkbox" checked> No Method
+          </label>
+        </div> -->
+
+        <!-- <hr> -->
+
+        <div id="method-holder" class="form-group col-2 col-first">
+          <label>Method</label>
+          <select class="method input-lg form-control">
+            <option></option>
+            <option>Credit Card</option>
+            <option>Amazon CC</option>
+            <option>Paypal CC</option>
+            <option>Debit Card</option>
+            <option>Cash</option>
+            <option>Savings</option>
+            <option>Stock</option>
+          </select>
+        </div>
+
+        <div class="form-group col-2">
+          <label>Date</label>
+          <input class="fecha input-lg form-control" type="datetime-local" placeholder="Fecha">
+        </div>
+
+        <div class="auxiliar"></div>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cancel new-record btn btn-lg btn-default">Cancel</div>
+        <div class="cancel modify-record btn btn-lg btn-default">Cancel</div>
+        <div id="newExpense" class="confirmar btn btn-lg btn-danger">Save</div>
+        <div id="newIncome" class="confirmar btn btn-lg btn-success">Save</div>
+        <div id="modifyRecord" class="confirmar btn btn-lg btn-primary">Modify</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- transaction -->
+
+
+<!-- INGRESO -->
+<div id="ingreso" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg" placeholder="Amount">
+        </div>
+
+        <input class="descripcion input-lg form-control" type="text" placeholder="Description">
+
+        <select class="cuenta input-lg form-control" style="    margin-top: 10px"></select>
+
+        <div class="atajos"></div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" checked> Take from Source
+          </label>
+        </div>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">Cancel</div>
+        <div class="confirmar btn btn-lg btn-success">Save</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- ingreso -->
+
+
+<!-- GASTO -->
+<div id="gasto" class="newExpense pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg" placeholder="Amount">
+        </div>
+
+        <input class="descripcion input-lg form-control" type="text" placeholder="Description">
+
+        <select class="cuenta input-lg form-control" style="    margin-top: 10px"></select>
+
+        <div class="atajos"></div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" checked> Take from Source
+          </label>
+        </div>
+
+        <hr>
+
+        <label>Advanced settings</label>
+
+        <select class="input-lg form-control" style="margin-bottom: 10px">
+          <option>Jobs Credit Card</option>
+          <option>Madys Credit Card</option>
+          <option>Jobs Debit Card</option>
+          <option>Madys Debit Card</option>
+          <option>Cash</option>
+        </select>
+
+        <input class="fecha input-lg form-control" type="datetime-local" placeholder="Fecha">
+
+        <div class="auxiliar"></div>
+
+
+
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">Cancel</div>
+        <div id="newExpense" class="confirmar btn btn-lg btn-danger">Save</div>
+        <div id="newIxpense" class="confirmar btn btn-lg btn-success">Save</div>
+        <div id="modifyRecord" class="confirmar btn btn-lg btn-primary">Modify</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- gasto -->
+
+
+<!-- MODIFICAR MOVIMIENTO -->
+<div id="modificar-movimiento" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg" placeholder="Amount">
+        </div>
+
+        <input class="descripcion input-lg form-control" type="text" placeholder="Description" style="margin-bottom: 10px;">
+
+        <input class="fecha input-lg form-control" type="datetime-local" placeholder="Fecha">
+
+        <select class="cuenta input-lg form-control" style="    margin-top: 10px"></select>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" checked> Take from Source
+          </label>
+        </div>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">Cancel</div>
+        <div class="confirmar btn btn-lg btn-primary">Modify</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- modificar movimiento-->
+
+
+<!-- TRASFERENCIA -->
+<div id="transferencia" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg" placeholder="Amount">
+        </div>
+
+        <select class="apartados form-control input-lg" style="margin-bottom: 10px;">
+        </select>
+
+        <input class="descripcion input-lg form-control" type="text" placeholder="Description (optional)">
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cancel</div>
+        <div class="confirmar cerrar btn btn-lg btn-primary">Transfer</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- transferencia -->
+
+
+<!-- ABONAR -->
+<div id="abonar" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="cantidad form-control input-lg" placeholder="Amount">
+        </div>
+
+        <select class="form-control input-lg" style="margin-bottom: 10px;">
+        </select>
+
+        <input class="descripcion input-lg form-control" type="text" placeholder="Descripcion (opcional)">
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">Cancel</div>
+        <div class="confirmar btn btn-lg btn-success">Abonar</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- abonar -->
+
+
+<!-- CAMBIAR APARTADO -->
+<div id="cambiar-apartado" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <select class="apartados form-control input-lg" style="margin-bottom: 10px;">
+        </select>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">Cancel</div>
+        <div class="confirmar cerrar btn btn-lg btn-primary">Change</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- cambiar apartado -->
+
+
+<!-- BORRAR MOVIMIENTO -->
+<div id="borrar-movimiento" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <p>Are you sure you want to delete?</p>
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="btn btn-lg btn-default">No</div>
+        <div class="confirmar btn btn-lg btn-danger">Yes</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- borrar-movimiento -->
+
+
+<!-- MENU -->
+<div id="menu" class="desplegado">
+
+   <ul>
+      <!-- <li id="cambio-btn"><i class="fas fa-coins"></i> Cambio</li> -->
+      <li id="search"><i class="fas fa-search"></i> Search</li>
+      <li id="search" onclick="searchByDates()"><i class="fas fa-search-minus"></i> Search by Dates</li>
+      <li id="search" onclick="advancedReport()" class="hide"><i class="fas fa-clipboard-list"></i> Advanced Report</li>
+      <li onclick="distributeAll()"><i class="fas fa-calendar-day"></i> Distribute All</li>
+      <li id="pay-card" class=""><i class="fas fa-share"></i> Transfer</li>
+      <li onclick="multiInsert()" class="hide"><i class="fas fa-clone"></i> Insertar multiple</li>
+      <li class="hide"><a href="https://docs.google.com/spreadsheets/d/1KYrZ5UuTdmgxbyKIdNya4WZmfAopNfF9SB-tZ7Fpzjw/edit?pli=1#gid=0" target="_blank"><i class="fas fa-external-link-alt"></i> JSON Converter</a></li>
+      <li onclick="costCalculator()"><i class="fas fa-calculator"></i> Cost Calculator</li>
+      <!-- <li onclick="tipCalculator()"><i class="fas fa-utensils"></i> Tip Calculator</li> -->
+      <!-- <li onclick="pesosTithe()"><i class="fas fa-chart-pie"></i> Pesos Tithe Calculator</li> -->
+      <li onclick="saveLocation()" class="hide"><i class="fas fa-map-marked-alt"></i> Location</li>
+      <!-- <li id="reporte-btn"><i class="fas fa-file-alt"></i> Total Ingresos vs Gastos</li>
+      <li id="gastos-fijos-btn"><i class="fas fa-file-alt"></i> Gastos Fijos</li> -->
+      <li onclick="cleanHighlight()"><i class="fas fa-eraser"></i> Clean Highlights</li>
+      <li id="report" onclick="report()" class="hide"><i class="fas fa-search"></i> Report</li>
+      <!-- <li onclick="AvsB()"><i class="fas fa-balance-scale"></i> Available vs Budgets</li> -->
+      <li onclick="newBudget()"><i class="fas fa-envelope"></i> New budget </li>
+      <li><small>Version <span id="version"></span></small></li>
+
+  </ul>
+
+</div>
+
+
+<!-- CAMBIO -->
+<div id="cambio" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="aPagar form-control input-lg" placeholder="Cantidad a pagar">
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="pagarCon form-control input-lg" placeholder="Cantidad para pagar">
+        </div>
+
+        <div class="auxiliar"></div>
+
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cerrar</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- cambio -->
+
+
+<!-- COST CALCULATOR -->
+<div id="cost-calc" class="pantalla modal">
+  <div class="centrar">
+    <div class="modal-holder">
+
+      <div class="body">
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="aPagar form-control input-lg" placeholder="Cantidad a pagar">
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="pagarCon form-control input-lg" placeholder="Cantidad para pagar">
+        </div>
+
+        <div class="auxiliar"></div>
+
+
+      </div><!-- body -->
+
+      <div class="footer">
+        <div class="cerrar btn btn-lg btn-default">Cerrar</div>
+      </div><!-- footer -->
+
+    </div><!-- modal-holder -->
+  </div><!-- centrar -->
+</div><!-- COST CALCULATOR -->
+
+
+<!-- LOADER -->
+<div class="loader">
+  <i class="fa fa-spinner fa-pulse"></i>
+</div>
+
+
+<div class="quitar-desplegado"></div><!-- quitar-desplegado -->
+
+
+<!-- Librerias -->
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/clipboard.min.js"></script>
+<script src="js/awesome-functions.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<!-- Archivos -->
+<script src="js/dates.js"></script>
+<script src="js/locations.js"></script>
+<script src="js/app.js"></script>
+
+
+
+</body>
+</html>
